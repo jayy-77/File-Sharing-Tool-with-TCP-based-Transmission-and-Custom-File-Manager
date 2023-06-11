@@ -33,7 +33,7 @@ def explorer():
             file_size = os.path.getsize(data['dir'])
             print(file_size)
             client_socket.send(file_name.encode())
-            client_socket.send(str(file_size).encode())
+            # client_socket.send(str(file_size).encode())
             file_data_byte = file.read()
             client_socket.sendall(file_data_byte)
             client_socket.send(b"<END>")
