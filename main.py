@@ -4,14 +4,14 @@ import socket
 import time
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import requests
 
-print("started")
+url = "http://localhost:3000"
 def explorer():
-
     app = Flask(__name__)
     CORS(app)
-    root = "/home/" + os.getcwd().split('/')[2]
 
+    root = "/home/" + os.getcwd().split('/')[2]
     @app.route('/directory')
     def traverse():
         os.chdir(root)
@@ -19,23 +19,30 @@ def explorer():
 
     @app.route('/post-data', methods=['POST'])
     def change_dir():
-
         data = request.get_json()
+
         if (os.path.isdir(data["dir"])):
             os.chdir(data["dir"])
         else:
             host = socket.gethostname()
-            port = 9979
+            port = 9970
             client_socket = socket.socket()
             client_socket.connect((host, port))
+
             file_name = data['dir'].split("/")[-1]
             file = open(data["dir"], "rb")
             file_size = os.path.getsize(data['dir'])
-            print(file_size)
-            client_socket.send(file_name.encode())
-            # client_socket.send(str(file_size).encode())
-            file_data_byte = file.read()
-            client_socket.sendall(file_data_byte)
+            requests.post(url, json = {"file_size":str(file_size), "file_name": file_name})
+            info = f"{file_name}<SEP>{file_size}"
+            client_socket.send(info.encode())
+            # file_data_byte = file.read()
+            while True:
+                file_data_byte = file.read(file_size)
+                if not file_data_byte:
+                    break
+                client_socket.sendall(file_data_byte)
+                requests.post(url+"/transfer_rate", json={"transfer_rate": str(len(file_data_byte))})
+            # client_socket.sendall(file_data_byte)
             client_socket.send(b"<END>")
             client_socket.close()
             print("yes")

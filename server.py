@@ -4,18 +4,16 @@ import tqdm
 def server_rec():
 
     while True:
-        print("again")
         server = socket.socket()
-        server.bind((socket.gethostname(), 9979))
+        server.bind((socket.gethostname(), 9970))
         server.listen()
         client, addr = server.accept()
         print("Client connected:", addr)
 
-        file_name = client.recv(1024).decode()
+        file_name, file_size = client.recv(1024).decode().split("<SEP>")
         print("Received file name:", file_name)
 
-        # file_size = client.recv(1024).decode()
-        # print("Received file size:", file_size)
+        print("Received file size:", file_size)
 
         file_path = "/home/jay/LJ/SEM-4/dev/PY/fileX/{}".format(file_name)
         file = open(file_path, "wb")
