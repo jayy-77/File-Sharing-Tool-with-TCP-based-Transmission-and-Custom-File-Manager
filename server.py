@@ -1,5 +1,7 @@
 import socket
 import tqdm
+import requests
+url = "http://localhost:3000"
 
 def server_rec():
 
@@ -20,13 +22,14 @@ def server_rec():
 
         file_bytes = b""
         done = False
-
+        progress_bar = tqdm.tqdm(total=int(file_size), unit='B', unit_scale=True)
         while not done:
-            data = client.recv(1024)
+            data = client.recv(int(file_size))
             if file_bytes[-5:] == b"<END>":
                 done = True
             file_bytes += data
-
+            progress_bar.update(len(data))
+            requests.post(url+"/transfer_rate", json={"transfer_rate": str(progress_bar.n)})
         file.write(file_bytes)
         file.close()
         print("File received:", file_path)

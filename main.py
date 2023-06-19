@@ -35,14 +35,9 @@ def explorer():
             requests.post(url, json = {"file_size":str(file_size), "file_name": file_name})
             info = f"{file_name}<SEP>{file_size}"
             client_socket.send(info.encode())
-            # file_data_byte = file.read()
-            while True:
-                file_data_byte = file.read(file_size)
-                if not file_data_byte:
-                    break
-                client_socket.sendall(file_data_byte)
-                requests.post(url+"/transfer_rate", json={"transfer_rate": str(len(file_data_byte))})
-            # client_socket.sendall(file_data_byte)
+            file_data_byte = file.read()
+            requests.post(url+"/transfer_rate", json={"transfer_rate": str(len(file_data_byte))})
+            client_socket.sendall(file_data_byte)
             client_socket.send(b"<END>")
             client_socket.close()
             print("yes")

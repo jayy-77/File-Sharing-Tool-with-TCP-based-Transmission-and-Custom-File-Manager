@@ -9,7 +9,7 @@ app.use(cors());
 
 file_name = null
 file_size = null
-
+transfer_rate = 0
 app.post('/', (req, res, next) => {
    file_size = req.body.file_size;
    file_name = req.body.file_name;
@@ -23,9 +23,12 @@ app.post('/', (req, res, next) => {
 })
 
 app.post('/transfer_rate', (req, res, next) => {
-  transfer_rate = req.body.transfer_rate;
-  localStorage.setItem("transfer_rate", transfer_rate)
+  transfer_rate = parseInt(req.body.transfer_rate);
   res.send()
+})
+
+app.post('/get_transfer', (req, res) =>{
+  res.json({"transfer_rate": transfer_rate})
 })
 
 app.post("/get-data", (req, res) =>{
