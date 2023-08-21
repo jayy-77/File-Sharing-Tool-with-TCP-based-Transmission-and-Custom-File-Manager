@@ -10,6 +10,7 @@ app.use(cors());
 file_name = null
 file_size = null
 transfer_rate = 0
+
 app.post('/', (req, res, next) => {
    file_size = req.body.file_size;
    file_name = req.body.file_name;
