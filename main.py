@@ -35,7 +35,7 @@ def explorer():
     @app.route("/post-data", methods=["POST"])
     def change_dir():
         data = request.get_json()
-        
+
         if data["item_object"]["type"] == "directory":
             os.chdir(os.getcwd() + "/" + data["item_object"]["content"])
 
