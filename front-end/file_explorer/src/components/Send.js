@@ -18,10 +18,10 @@ function Send() {
             .catch(error => console.log(error))
     }, [])
 
-    return (
+    return ( 
         <>
             <div className="container">
-                <div className="justify-content-center row row-cols-2 row-cols-lg-5">
+                <div className="row row-cols-2 row-cols-lg-5">
                     {structure ? (
                         structure[0].map((item) => (<div className="col p-3" onDoubleClick={() => directory_operation(item)}>
                                 <img className="justify-content-center" src={item["type"] === "directory" ? "folder.png" : "file.svg"} alt="none" />
