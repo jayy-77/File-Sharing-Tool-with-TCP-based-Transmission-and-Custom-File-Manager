@@ -4,7 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, TextField } from "@mui/material"
 import { useState } from 'react';
 import Send from './components/Send'
-import axios from 'axios'
+import Receive from './components/Receive';
 
 function App() {
   const [open, setOpen] = useState(false)
@@ -23,13 +23,14 @@ function App() {
               <h1 className='display-1' onClick={() => setOpen(true)}>SEND</h1>
             </button>
             <div className='col p-5 btn btn-outline-primary btn-lg text-light'>
-              <h1 className='display-1'>RECEIVE</h1>
+              <h1 className='display-1' onClick={() => setState("receive")}>RECEIVE</h1>
             </div>
           </div>
         </div>
       </>)}
 
       {state === "send" && <Send/>}
+      {state === "receive" && <Receive/>}
 
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>IP</DialogTitle>
@@ -40,7 +41,7 @@ function App() {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>Cancel</Button>
+          <Button onClick={() =>  setOpen(false)}>Cancel</Button>
           <Button onClick={() => { setOpen(false); setState("send") }}>Connect</Button>
         </DialogActions>
 
