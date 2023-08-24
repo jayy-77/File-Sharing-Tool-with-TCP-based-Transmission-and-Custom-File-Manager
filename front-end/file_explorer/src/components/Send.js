@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 function Send() {
     const [structure, setStructure] = useState(null)
     const [path, setPath] = useState("")
-    const URL = 'http://127.0.0.1:4545'
+    const URL = 'http://127.0.0.1:4544'
 
     function directory_operation(item, end_point) {
         axios.post(`${URL}/${end_point}`, { item_object: item })
@@ -15,7 +15,7 @@ function Send() {
     }
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:4545/directory', { directory: null })
+        axios.get('http://127.0.0.1:4544/directory', { directory: null })
             .then(response => { setStructure(response.data); setPath(response.data[1]) })
             .catch(error => console.log(error))
     }, [])
