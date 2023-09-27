@@ -7,6 +7,8 @@ from flask_cors import CORS
 
 url = "http://localhost:3000"
 file_name, file_size, host = "", "", ""
+ip = ""
+
 def directory_finder(listdir):
     root_struct = []
 
@@ -17,6 +19,7 @@ def directory_finder(listdir):
             root_struct.append({"type": "directory", "content": i})
 
     return root_struct
+
 
 def explorer():
     app = Flask(__name__)
@@ -29,8 +32,10 @@ def explorer():
 
     root = root_disks[0]
 
-    @app.route("/directory")
+    @app.route("/directory", methods=["POST"])
     def traverse():
+        global ip
+        ip = request.get_json()["ip"]
         os.chdir(root)
         return jsonify(directory_finder(os.listdir()), os.getcwd(), root_disks)
 
@@ -45,12 +50,12 @@ def explorer():
     def change_dir():
         global file_name, file_size, host
         data = request.get_json()
-
+        print(data)
         if data["item_object"]["type"] == "directory":
             os.chdir(os.getcwd() + "/" + data["item_object"]["content"])
 
         else:
-            host = socket.gethostname()
+            host = ip
             port = 9970
             client_socket = socket.socket()
             client_socket.connect((host, port))
@@ -74,8 +79,6 @@ def explorer():
     def back_dir():
         os.chdir("..")
         return jsonify(directory_finder(os.listdir()), os.getcwd(), root_disks)
-
-
 
     if __name__ == "__main__":
         app.run(host="0.0.0.0", port=4544)

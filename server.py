@@ -26,21 +26,18 @@ def server_rec():
             data = client.recv(int(file_size))
             if file_bytes[-5:] == b"<END>":
                 done = True
+            file_bytes += data
 
-            requests.post('http://localhost:3001/transfer_rate', json={
+            requests.post('http://localhost:3001/transfer_rate', json = {
                 "ip": addr[0],
                 "status": True,
                 "host": "jayLinux",
                 "file_name": file_name,
-                "file_size": int(file_size) / 1000000,
+                "file_size": int(file_size) / 1000000 ,
                 "file_path": file_path,
                 "transfer_rate": len(file_bytes) / 1000000,
-                "progress": (len(file_bytes) / int(file_size)) * 100 if len(file_bytes) > 0 and int(
-                    file_size) > 0 else 0
+                "progress": (len(file_bytes) / int(file_size)) * 100
             })
-
-            print(len(file_bytes) / 1000000)
-            file_bytes += data
 
         file.write(file_bytes)
         file.close()

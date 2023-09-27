@@ -26,7 +26,7 @@ app.post('/transfer_rate', (req, res) => {
   file_path = req.body["file_path"]
   progress = req.body["progress"]
 
-  res.send()
+  res.send(transfer_rate)
 })
 
 app.post("/get-data", (req, res) => {

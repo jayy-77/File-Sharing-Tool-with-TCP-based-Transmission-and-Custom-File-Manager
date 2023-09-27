@@ -5,6 +5,7 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, B
 import { useState } from 'react';
 import Send from './components/Send'
 import Receive from './components/Receive';
+import axios from 'axios';
 
 function App() {
   const [open, setOpen] = useState(false)
@@ -24,7 +25,9 @@ function App() {
               <h1 className='display-1' onClick={() => setOpen(true)}>SEND</h1>
             </button>
             <div className='col p-5 btn btn-outline-primary btn-lg text-light'>
-              <h1 className='display-1' onClick={() => setState("receive")}>RECEIVE</h1>
+              <h1 className='display-1' onClick={() => {
+                   setState("receive")
+              }}>RECEIVE</h1>
             </div>
           </div>
         </div>
@@ -43,7 +46,10 @@ function App() {
 
         <DialogActions>
           <Button onClick={() =>  setOpen(false)}>Cancel</Button>
-          <Button onClick={() => { setOpen(false); setState("send") }}>Connect</Button>
+          <Button onClick={() => { 
+                setOpen(false) 
+                setState("send")
+            }}>Connect</Button>
         </DialogActions>
 
       </Dialog>

@@ -22,7 +22,6 @@ function Receive() {
             axios.post('http://localhost:3001/get-data', { req: null })
                 .then(response => {
                     setConfig(response.data);
-                    console.log(response.data);
                 })
                 .catch(error => {
                     console.error("Error fetching data:", error);

@@ -3,7 +3,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import axios from 'axios'
 import { useEffect, useState } from "react";
 
-function Send() {
+function Send(props) {
     const [structure, setStructure] = useState(null)
     const [path, setPath] = useState("")
     const [disks, setDisks] = useState([])
@@ -30,7 +30,7 @@ function Send() {
     }
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:4544/directory', { directory: null })
+        axios.post('http://127.0.0.1:4544/directory', { ip: props.ip })
             .then(response => { 
                 setStructure(response.data); 
                 setPath(response.data[1]);
