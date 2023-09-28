@@ -20,7 +20,6 @@ def directory_finder(listdir):
 
     return root_struct
 
-
 def explorer():
     app = Flask(__name__)
     CORS(app)
@@ -51,12 +50,14 @@ def explorer():
         global file_name, file_size, host
         data = request.get_json()
         print(data)
+        flag = -1
         if data["item_object"]["type"] == "directory":
             os.chdir(os.getcwd() + "/" + data["item_object"]["content"])
+            flag = 0
 
         else:
             host = ip
-            port = 9970
+            port = 9971
             client_socket = socket.socket()
             client_socket.connect((host, port))
 
@@ -72,8 +73,9 @@ def explorer():
             client_socket.send(b"<END>")
             client_socket.close()
             file.close()
+            flag = 1
 
-        return jsonify(directory_finder(os.listdir()), os.getcwd(), root_disks)
+        return jsonify(directory_finder(os.listdir()), os.getcwd(), root_disks, flag)
 
     @app.route("/back-dir", methods=["POST"])
     def back_dir():
@@ -82,7 +84,6 @@ def explorer():
 
     if __name__ == "__main__":
         app.run(host="0.0.0.0", port=4544)
-
 
 while True:
     explorer()

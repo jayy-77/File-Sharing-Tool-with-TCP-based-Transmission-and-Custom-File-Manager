@@ -5,14 +5,12 @@ const cors = require('cors');
 app.use(express.json());
 app.use(cors());
 
-transfer_rate = 0
 file_name = ""
 file_size = ""
 ip = ""
 status_code = ""
 host = ""
 file_path = ""
-progress = 0
 status_1 = ""
 
 app.post('/transfer_rate', (req, res) => {
@@ -26,7 +24,7 @@ app.post('/transfer_rate', (req, res) => {
   file_path = req.body["file_path"]
   progress = req.body["progress"]
 
-  res.send(transfer_rate)
+  res.send()
 })
 
 app.post("/get-data", (req, res) => {
@@ -37,8 +35,6 @@ app.post("/get-data", (req, res) => {
     "file_name": file_name,
     "file_size": file_size,
     "file_path": file_path,
-    "transfer_rate": transfer_rate,
-    "progress": progress
   })
 })
 

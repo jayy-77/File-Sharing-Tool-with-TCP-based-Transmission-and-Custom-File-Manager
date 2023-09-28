@@ -10,7 +10,7 @@ def server_rec():
 
     while True:
         server = socket.socket()
-        server.bind((socket.gethostname(), 9970))
+        server.bind((socket.gethostname(), 9971))
         server.listen()
         client, addr = server.accept()
         print("Client connected:", addr)
@@ -22,22 +22,22 @@ def server_rec():
         file = open(file_path, "wb")
         file_bytes = b""
         done = False
+
+        requests.post('http://localhost:3001/transfer_rate', json={
+            "ip": addr[0],
+            "status_code": True,
+            "host": "jayLinux",
+            "file_name": file_name,
+            "file_size": int(file_size) / 1000000,
+            "file_path": file_path,
+        })
+
         while not done:
             data = client.recv(int(file_size))
             if file_bytes[-5:] == b"<END>":
                 done = True
             file_bytes += data
 
-            requests.post('http://localhost:3001/transfer_rate', json = {
-                "ip": addr[0],
-                "status": True,
-                "host": "jayLinux",
-                "file_name": file_name,
-                "file_size": int(file_size) / 1000000 ,
-                "file_path": file_path,
-                "transfer_rate": len(file_bytes) / 1000000,
-                "progress": (len(file_bytes) / int(file_size)) * 100
-            })
 
         file.write(file_bytes)
         file.close()
