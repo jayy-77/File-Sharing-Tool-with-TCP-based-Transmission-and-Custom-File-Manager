@@ -19,7 +19,6 @@ function Receive() {
         const interval = setInterval(() => {
             axios.post('http://localhost:3001/get-data', { req: null })
                 .then(response => {
-                    console.log(response.data)
                     setConfig(response.data);
                 })
                 .catch(error => {
@@ -45,10 +44,10 @@ function Receive() {
                         <span className="input-group-text bg-secondary text-light">Status</span>
                         <input type="text" value={config["status"] ? "200 OK" : "400 Error"} className="text-success form-control bg-dark" disabled />
                     </div>
-                    <div className="input-group input-group-lg mb-5">
+                    {/* <div className="input-group input-group-lg mb-5">
                         <span className="input-group-text bg-secondary text-light">Host</span>
                         <input type="text" value={config["host"]} className="text-warning form-control bg-dark" disabled />
-                    </div>
+                    </div> */}
                     <div className="input-group input-group-lg mb-5">
                         <span className="input-group-text bg-secondary text-light">File Name</span>
                         <input type="text" value={config["file_name"]} className="text-warning form-control bg-dark" disabled />
@@ -60,6 +59,10 @@ function Receive() {
                     <div className="input-group input-group-lg mb-5">
                         <span className="input-group-text bg-secondary text-light">File Path</span>
                         <input type="text" value={config["file_path"]} className="text-light form-control bg-dark" disabled />
+                    </div>
+                    <div className="input-group input-group-lg mb-5">
+                        <span className="input-group-text bg-secondary text-light">Transfer status</span>
+                        <input type="text" value={config["status"] ? "Received Successfully" : "Transfer in progress.."} className={`text-${config["status"] ? 'success' : 'info'} form-control bg-dark`} disabled />
                     </div>
                     <button className="mt-3 btn btn-danger w-100">Cancel transfer</button>
                 </>)}

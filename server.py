@@ -25,7 +25,7 @@ def server_rec():
 
         requests.post('http://localhost:3001/transfer_rate', json={
             "ip": addr[0],
-            "status_code": True,
+            "status_code": False,
             "host": "jayLinux",
             "file_name": file_name,
             "file_size": int(file_size) / 1000000,
@@ -38,7 +38,14 @@ def server_rec():
                 done = True
             file_bytes += data
 
-
+        requests.post('http://localhost:3001/transfer_rate', json={
+            "ip": addr[0],
+            "status_code": True,
+            "host": "jayLinux",
+            "file_name": file_name,
+            "file_size": int(file_size) / 1000000,
+            "file_path": file_path,
+        })
         file.write(file_bytes)
         file.close()
         print("File received:", file_path)

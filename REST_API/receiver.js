@@ -19,7 +19,7 @@ app.post('/transfer_rate', (req, res) => {
   file_name = req.body["file_name"]
   file_size = req.body["file_size"]
   ip = req.body["ip"]
-  status_1 = req.body["status"]
+  status_1 = req.body["status_code"]
   host = req.body["host"]
   file_path = req.body["file_path"]
   progress = req.body["progress"]
@@ -28,6 +28,7 @@ app.post('/transfer_rate', (req, res) => {
 })
 
 app.post("/get-data", (req, res) => {
+  console.log(status_1)
   res.json({
     "ip": ip,
     "status": status_1,
